@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   write_img.c                                        :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/08 13:48:06 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/08 14:48:13 by cdrouet          ###   ########.fr       */
+/*   Created: 2015/12/09 08:41:13 by cdrouet           #+#    #+#             */
+/*   Updated: 2016/01/22 13:09:24 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# include <unistd.h>
+# include <stdlib.h>
+# include "libft.h"
+# define BUFF_SIZE 100
 
-void	write_img(int x, int y, t_img *jpg)
-{
-	jpg->ret[(x * jpg->sl) + (y * jpg->bits / 8)] = (jpg->color & 0x00FF0000) >> 16;
-	jpg->ret[(x * jpg->sl) + (y * jpg->bits / 8) + 1] = (jpg->color & 0x00FF00) >> 8;
-	jpg->ret[(x * jpg->sl) + (y * jpg->bits / 8) + 2] = (jpg->color & 0x00FF) >> 0;
-}
+int				get_next_line(int const fd, char **line);
+int				verif_end(int *i, char **c);
+int				read_gnl(char *c, int fd);
+int				search_index(char **c, int fd);
+void			init_j(int *j);
+
+#endif

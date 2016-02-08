@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   write_img.c                                        :+:      :+:    :+:   */
+/*   pct_i.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/08 13:48:06 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/08 14:48:13 by cdrouet          ###   ########.fr       */
+/*   Created: 2016/01/07 09:58:17 by cdrouet           #+#    #+#             */
+/*   Updated: 2016/01/13 08:15:51 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "ft_printf.h"
 
-void	write_img(int x, int y, t_img *jpg)
+int		pct_i(const char *restrict format, va_list ap)
 {
-	jpg->ret[(x * jpg->sl) + (y * jpg->bits / 8)] = (jpg->color & 0x00FF0000) >> 16;
-	jpg->ret[(x * jpg->sl) + (y * jpg->bits / 8) + 1] = (jpg->color & 0x00FF00) >> 8;
-	jpg->ret[(x * jpg->sl) + (y * jpg->bits / 8) + 2] = (jpg->color & 0x00FF) >> 0;
+	char	*str;
+
+	str = ft_strchr(format, 'i');
+	str[0] = 'd';
+	return (pct_d(format, ap));
 }
