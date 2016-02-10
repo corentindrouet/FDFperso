@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/10 08:14:01 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/10 12:56:07 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/10 13:52:53 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void			affiche_carte(t_file *carte, void *mlx, void *win, t_pts valdec)
 {
 	int		i;
 	int		y;
+	double		coef;
 	t_pts	init;
 	t_pts	dec;
 	t_img	*put;
@@ -67,6 +68,7 @@ void			affiche_carte(t_file *carte, void *mlx, void *win, t_pts valdec)
 	put = t_img_init(mlx, 900, 900);
 	dec.x = lst_len(carte) * valdec.x;
 	dec.y = do_char_len(carte->split) * valdec.y;
+	coef = lst_len(carte) / 2;
 	y = 0;
 	put->color = mlx_get_color_value(mlx, 0x0000FF);
 	while (carte)
@@ -77,15 +79,16 @@ void			affiche_carte(t_file *carte, void *mlx, void *win, t_pts valdec)
 		{
 			if (carte->split[i + 1])
 				trace_segment(decal(init_pts(init, i, y), dec.x, dec.y - ft_atoi(carte->split[i])),
-					decal(init_pts(init, i + 1, y), dec.x, dec.y + valdec.y - ft_atoi(carte->split[i + 1])), put);
+					decal(init_pts(init, i + 1, y), dec.x, dec.y + (coef * 0.5) + valdec.y - ft_atoi(carte->split[i + 1])), put);
 			if (carte->next)
 				if (i < do_char_len(carte->next->split))
 					trace_segment(decal(init_pts(init, i, y), dec.x, dec.y - ft_atoi(carte->split[i])),
-						decal(init_pts(init, i, y + 1), dec.x - valdec.x, dec.y - ft_atoi(carte->next->split[i])), put);
+						decal(init_pts(init, i, y + 1), dec.x - valdec.x, dec.y + ((coef - 1) * 0.5) - ft_atoi(carte->next->split[i])), put);
 			i++;
-			dec.y += valdec.y;
+			dec.y += valdec.y + (coef * 0.5);
 		}
 		dec.x -= valdec.x;
+		coef -= 1;
 		y++;
 		carte = carte->next;
 	}
