@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/05 09:53:37 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/10 12:59:54 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/10 14:43:28 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ int		main(int argc, char **argv)
 	carte = NULL;
 	carte = init_carte(carte, argv[1]);
 	prout.mlx = mlx_init();
-	prout.win = mlx_new_window(prout.mlx, 1000, 1000, "prout");
-	angle.x = 0;
-	angle.y = 0;
+	prout.win = mlx_new_window(prout.mlx, 1000, 1000, ft_strjoin("FDF - ", argv[1]));
+	angle.x = 15;
+	angle.y = 10;
 	param.angle = angle;
 	param.omlx = prout;
 	param.carte = carte;
