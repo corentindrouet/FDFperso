@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/10 08:14:01 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/11 14:12:35 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/11 15:07:32 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,15 @@ void			affiche_carte(t_file *carte, t_mlx info, t_pts valdec, t_pts start)
 	t_pts	dec;
 	t_img	*put;
 
+	init.x = 600 / valdec.x;//((do_char_len(carte->split) / 900) >= 1) ? do_char_len(carte->split) / 900 : valdec.x * 0.6;
+	init.y = 600 / lst_len(carte);//((lst_len(carte) / 900) >= 1) ? lst_len(carte) / 900 : valdec.x * 0.8;
+	valdec.x *= 2;
 	valdec.y = valdec.x * 0.4;
-	init.x = ((do_char_len(carte->split) / 900) >= 1) ? do_char_len(carte->split) / 900 : valdec.x * 0.6;
-	init.y = ((lst_len(carte) / 900) >= 1) ? lst_len(carte) / 900 : valdec.x * 0.8;
 	put = t_img_init(info.mlx, 1000, 1000);
 	dec.x = start.x;
 	dec.y = start.y;
 	y = 0;
-	put->color = mlx_get_color_value(info.mlx, 0x0000FF);
+	put->color = mlx_get_color_value(info.mlx, 0xFFFFFF);
 	while (carte)
 	{
 		i = 0;
@@ -78,15 +79,15 @@ void			affiche_carte(t_file *carte, t_mlx info, t_pts valdec, t_pts start)
 		{
 			if (carte->split[i + 1])
 				trace_segment(decal(init_pts(init, i, y), dec.x,
-					((dec.y - ((valdec.x * 0.08) * ft_atoi(carte->split[i]))) / 2)),
+					((dec.y - ((init.x / 5) * ft_atoi(carte->split[i]))) / 2)),
 						decal(init_pts(init, i + 1, y), dec.x,
-							((dec.y + valdec.y - ((valdec.x * 0.08) * ft_atoi(carte->split[i + 1]))) / 2)), put);
+							((dec.y + valdec.y - ((init.x / 5) * ft_atoi(carte->split[i + 1]))) / 2)), put);
 			if (carte->next)
 				if (i < do_char_len(carte->next->split))
 					trace_segment(decal(init_pts(init, i, y), dec.x,
-						((dec.y - ((valdec.x * 0.08) * ft_atoi(carte->split[i]))) / 2)),
+						((dec.y - ((init.x / 5) * ft_atoi(carte->split[i]))) / 2)),
 							decal(init_pts(init, i, y + 1), dec.x - valdec.x,
-								((dec.y - ((valdec.x * 0.08) * ft_atoi(carte->next->split[i]))) / 2)), put);
+								((dec.y - ((init.x / 5) * ft_atoi(carte->next->split[i]))) / 2)), put);
 			i++;
 			dec.y += valdec.y;
 		}
