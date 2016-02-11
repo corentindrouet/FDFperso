@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/10 08:14:01 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/10 15:08:00 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/11 08:41:21 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,19 @@ void			affiche_carte(t_file *carte, void *mlx, void *win, t_pts valdec)
 		dec.y = 0;
 		while (carte->split[i])
 		{
+			if (carte->split[i + 1] && y == 2 && i == 10)
+			printf("depart : x = %d | y = %d |-| fin : x = %d | y = %d\n", (init.x * i) + dec.x, (init.y * y) + ((dec.y - ft_atoi(carte->split[i]))), (init.x * (i + 1)) + dec.x, (init.y * y) + ((dec.y + valdec.y - ft_atoi(carte->split[i + 1]))));
 			if (carte->split[i + 1])
 				trace_segment(decal(init_pts(init, i, y), dec.x,
-					(dec.y - ft_atoi(carte->split[i])) / 2),
+					(dec.y - ft_atoi(carte->split[i])) ),
 						decal(init_pts(init, i + 1, y), dec.x,
-							(dec.y + valdec.y - ft_atoi(carte->split[i + 1])) / 2), put);
+							(dec.y + valdec.y - ft_atoi(carte->split[i + 1])) ), put);
 			if (carte->next)
 				if (i < do_char_len(carte->next->split))
 					trace_segment(decal(init_pts(init, i, y), dec.x,
-						(dec.y - ft_atoi(carte->split[i])) / 2),
+						(dec.y - ft_atoi(carte->split[i])) ),
 							decal(init_pts(init, i, y + 1), dec.x - valdec.x,
-								(dec.y - ft_atoi(carte->next->split[i])) / 2), put);
+								(dec.y - ft_atoi(carte->next->split[i])) ), put);
 			i++;
 			dec.y += valdec.y;
 		}

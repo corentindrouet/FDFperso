@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/05 09:53:37 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/10 14:43:28 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/11 08:47:49 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ int		main(int argc, char **argv)
 	t_mlx	prout;
 	t_pts	angle;
 	t_move	param;
+	t_img	*put;
+	t_pts	pt1;
+	t_pts	pt2;
 
 	(void)argc;
 	carte = NULL;
@@ -87,7 +90,16 @@ int		main(int argc, char **argv)
 	param.angle = angle;
 	param.omlx = prout;
 	param.carte = carte;
-	affiche_carte(carte, prout.mlx, prout.win, angle);
+//	affiche_carte(carte, prout.mlx, prout.win, angle);
+	put = t_img_init(prout.mlx, 900, 900);
+	put->color = mlx_get_color_value(prout.mlx, 0x0000FF);
+	pt1.x = 285;
+	pt1.y = 140;
+	pt2.x = 300;
+	pt2.y = 100;
+	trace_segment(pt1, pt2, put);
+	mlx_put_image_to_window(prout.mlx, prout.win, put->img, 15, 15);
+	mlx_destroy_image(prout.mlx, put->img);
 	mlx_key_hook(prout.win, esc_touch, &param);
 	mlx_loop(prout.mlx);
 	return (0);
