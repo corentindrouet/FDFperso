@@ -6,7 +6,7 @@
 /*   By: cdrouet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/26 08:19:42 by cdrouet           #+#    #+#             */
-/*   Updated: 2015/11/30 11:59:26 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/11 11:48:32 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ char		**ft_strsplit(char const *s, char c)
 	sc = ft_strctrim(s, c);
 	j[2] = ft_nbrword(sc, c);
 	ptr = (char**)malloc(sizeof(char*) * (j[2] + 1));
+	while (j[2])
+		ptr[j[2]--] = NULL;
 	j[2] = -1;
 	j[1] = -1;
 	while (++j[2] < ft_nbrword(sc, c))

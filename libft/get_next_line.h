@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/09 08:41:13 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/01/22 13:09:24 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/11 10:58:59 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include "libft.h"
-# define BUFF_SIZE 100
+# define BUFF_SIZE 1000
 
 int				get_next_line(int const fd, char **line);
 int				verif_end(int *i, char **c);

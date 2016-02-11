@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/10 08:14:01 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/11 08:41:21 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/11 14:12:35 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int				lst_len(t_file *lst)
 	return (i);
 }
 
-void			affiche_carte(t_file *carte, void *mlx, void *win, t_pts valdec)
+void			affiche_carte(t_file *carte, t_mlx info, t_pts valdec, t_pts start)
 {
 	int		i;
 	int		y;
@@ -62,32 +62,31 @@ void			affiche_carte(t_file *carte, void *mlx, void *win, t_pts valdec)
 	t_pts	dec;
 	t_img	*put;
 
-	init.x = ((do_char_len(carte->split) / 900) >= 1) ? do_char_len(carte->split) / 900 : 15;
-	init.y = ((lst_len(carte) / 900) >= 1) ? lst_len(carte) / 900 : 20;
-	put = t_img_init(mlx, 900, 900);
-	dec.x = lst_len(carte) * valdec.x;
-	dec.y = do_char_len(carte->split) * valdec.y;
+	valdec.y = valdec.x * 0.4;
+	init.x = ((do_char_len(carte->split) / 900) >= 1) ? do_char_len(carte->split) / 900 : valdec.x * 0.6;
+	init.y = ((lst_len(carte) / 900) >= 1) ? lst_len(carte) / 900 : valdec.x * 0.8;
+	put = t_img_init(info.mlx, 1000, 1000);
+	dec.x = start.x;
+	dec.y = start.y;
 	y = 0;
-	put->color = mlx_get_color_value(mlx, 0x0000FF);
+	put->color = mlx_get_color_value(info.mlx, 0x0000FF);
 	while (carte)
 	{
 		i = 0;
-		dec.y = 0;
+		dec.y = start.y;
 		while (carte->split[i])
 		{
-			if (carte->split[i + 1] && y == 2 && i == 10)
-			printf("depart : x = %d | y = %d |-| fin : x = %d | y = %d\n", (init.x * i) + dec.x, (init.y * y) + ((dec.y - ft_atoi(carte->split[i]))), (init.x * (i + 1)) + dec.x, (init.y * y) + ((dec.y + valdec.y - ft_atoi(carte->split[i + 1]))));
 			if (carte->split[i + 1])
 				trace_segment(decal(init_pts(init, i, y), dec.x,
-					(dec.y - ft_atoi(carte->split[i])) ),
+					((dec.y - ((valdec.x * 0.08) * ft_atoi(carte->split[i]))) / 2)),
 						decal(init_pts(init, i + 1, y), dec.x,
-							(dec.y + valdec.y - ft_atoi(carte->split[i + 1])) ), put);
+							((dec.y + valdec.y - ((valdec.x * 0.08) * ft_atoi(carte->split[i + 1]))) / 2)), put);
 			if (carte->next)
 				if (i < do_char_len(carte->next->split))
 					trace_segment(decal(init_pts(init, i, y), dec.x,
-						(dec.y - ft_atoi(carte->split[i])) ),
+						((dec.y - ((valdec.x * 0.08) * ft_atoi(carte->split[i]))) / 2)),
 							decal(init_pts(init, i, y + 1), dec.x - valdec.x,
-								(dec.y - ft_atoi(carte->next->split[i])) ), put);
+								((dec.y - ((valdec.x * 0.08) * ft_atoi(carte->next->split[i]))) / 2)), put);
 			i++;
 			dec.y += valdec.y;
 		}
@@ -95,6 +94,6 @@ void			affiche_carte(t_file *carte, void *mlx, void *win, t_pts valdec)
 		y++;
 		carte = carte->next;
 	}
-	mlx_put_image_to_window(mlx, win, put->img, 15, 15);
-	mlx_destroy_image(mlx, put->img);
+	mlx_put_image_to_window(info.mlx, info.win, put->img, 0, 0);
+	mlx_destroy_image(info.mlx, put->img);
 }

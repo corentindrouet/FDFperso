@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/05 09:53:37 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/11 08:47:49 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/11 14:02:09 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,38 @@ int		esc_touch(int keycode, void *param)
 	if (keycode == left)
 	{
 		mlx_clear_window(par->omlx.mlx, par->omlx.win);
-//		par->angle.x++;
-//		par->angle.y--;
-		affiche_carte(par->carte, par->omlx.mlx, par->omlx.win, par->angle);
+		par->start.x -= 3;
+		affiche_carte(par->carte, par->omlx, par->angle, par->start);
+	}
+	if (keycode == right)
+	{
+		mlx_clear_window(par->omlx.mlx, par->omlx.win);
+		par->start.x += 3;
+		affiche_carte(par->carte, par->omlx, par->angle, par->start);
+	}
+	if (keycode == up)
+	{
+		mlx_clear_window(par->omlx.mlx, par->omlx.win);
+		par->start.y -= 3;
+		affiche_carte(par->carte, par->omlx, par->angle, par->start);
+	}
+	if (keycode == down)
+	{
+		mlx_clear_window(par->omlx.mlx, par->omlx.win);
+		par->start.y += 3;
+		affiche_carte(par->carte, par->omlx, par->angle, par->start);
+	}
+	if (keycode == moin)
+	{
+		mlx_clear_window(par->omlx.mlx, par->omlx.win);
+		par->angle.x -= 3;
+		affiche_carte(par->carte, par->omlx, par->angle, par->start);
+	}
+	if (keycode == plus)
+	{
+		mlx_clear_window(par->omlx.mlx, par->omlx.win);
+		par->angle.x += 3;
+		affiche_carte(par->carte, par->omlx, par->angle, par->start);
 	}
 	return (0);
 }
@@ -44,25 +73,27 @@ t_file	*lst_file_new(char **val)
 	return (new);
 }
 
-t_file	*init_carte(t_file *carte, char *file)
+t_file	*init_carte(t_file *carte, char *file, t_pts *mm)
 {
-	int		i;
 	int		fd;
 	char	*line;
 	t_file	*ret;
 
 	fd = open(file, O_RDONLY);
-	i = 0;
+	(*mm).x = 0;
 	ret = NULL;
 	if (get_next_line(fd, &line) > 0)
 	{
 		ret = lst_file_new(ft_strsplit(line, ' '));
+		if (do_char_len(ret->split) > (*mm).x)
+			(*mm).x = do_char_len(ret->split);
 		carte = ret;
 	}
 	while (get_next_line(fd, &line) > 0)
 	{
 		carte->next = lst_file_new(ft_strsplit(line, ' '));
-		carte->ind = i++;
+		if (do_char_len(carte->next->split) > (*mm).x)
+			(*mm).x = do_char_len(carte->next->split);
 		free(line);
 		carte = carte->next;
 	}
@@ -75,32 +106,24 @@ int		main(int argc, char **argv)
 	t_file	*carte;
 	t_mlx	prout;
 	t_pts	angle;
+	t_pts	start;
 	t_move	param;
-	t_img	*put;
-	t_pts	pt1;
-	t_pts	pt2;
 
 	(void)argc;
 	carte = NULL;
-	carte = init_carte(carte, argv[1]);
+	carte = init_carte(carte, argv[1], &angle);
 	prout.mlx = mlx_init();
 	prout.win = mlx_new_window(prout.mlx, 1000, 1000, ft_strjoin("FDF - ", argv[1]));
-	angle.x = 15;
-	angle.y = 10;
+	angle.x = 25;
+	start.x = lst_len(carte) * angle.x;
+	start.y = do_char_len(carte->split) * angle.y;
 	param.angle = angle;
 	param.omlx = prout;
 	param.carte = carte;
-//	affiche_carte(carte, prout.mlx, prout.win, angle);
-	put = t_img_init(prout.mlx, 900, 900);
-	put->color = mlx_get_color_value(prout.mlx, 0x0000FF);
-	pt1.x = 285;
-	pt1.y = 140;
-	pt2.x = 300;
-	pt2.y = 100;
-	trace_segment(pt1, pt2, put);
-	mlx_put_image_to_window(prout.mlx, prout.win, put->img, 15, 15);
-	mlx_destroy_image(prout.mlx, put->img);
-	mlx_key_hook(prout.win, esc_touch, &param);
+	param.start = start;
+	affiche_carte(carte, prout, angle, start);
+//	mlx_key_hook(prout.win, esc_touch, &param);
+	mlx_hook(prout.win, 2, 0, esc_touch, &param);
 	mlx_loop(prout.mlx);
 	return (0);
 }

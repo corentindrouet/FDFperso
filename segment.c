@@ -6,11 +6,12 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 13:10:04 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/08 14:58:48 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/11 08:57:47 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include <stdio.h>
 
 static void	first_ca(t_pts d, t_pts start, t_pts stop, t_img *jpg)
 {
@@ -75,7 +76,7 @@ static void	last_ca(t_pts d, t_pts start, t_pts stop, t_img *jpg)
 		while (start.y != stop.y)
 		{
 			write_img(start.y--, start.x, jpg);
-			if ((e -= d.x) > 0)
+			if ((e += d.x) > 0)
 			{
 				start.x++;
 				e += d.y;
