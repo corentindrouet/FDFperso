@@ -6,7 +6,7 @@
 #    By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/08 14:32:27 by cdrouet           #+#    #+#              #
-#    Updated: 2016/02/10 08:38:42 by cdrouet          ###   ########.fr        #
+#    Updated: 2016/02/12 14:30:16 by cdrouet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ SRC = main.c \
 	  segment.c \
 	  write_img.c \
 	  affiche.c \
+	  segment_2.c \
+	  event.c \
 
 BIN = $(SRC:.c=.o)
 

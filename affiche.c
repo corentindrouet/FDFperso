@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/10 08:14:01 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/12 13:48:16 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/12 14:35:11 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void			affiche_carte(t_move param)
 		init.y = 600 / lst_len(param.carte);
 	}
 	t1 = (double)init.x;
-	t2 = (double)((param.angle.x > lst_len(param.carte))?
+	t2 = (double)((param.angle.x > lst_len(param.carte)) ?
 		param.angle.x : lst_len(param.carte));
 	coef = t1 / t2;
 	param.angle.x *= coef;

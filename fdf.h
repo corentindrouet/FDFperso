@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/05 10:38:50 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/12 09:09:03 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/12 14:34:21 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,14 @@ typedef struct		s_move
 	int				zoom;
 }					t_move;
 
+void				event_plus_moin(int keycode, t_move *par);
+void				event_fleche(int keycode, t_move *par);
+void				first_ca(t_pts d, t_pts start, t_pts stop, t_img *jpg);
+void				second_ca(t_pts d, t_pts start, t_pts stop, t_img *jpg);
+void				third_ca(t_pts d, t_pts start, t_pts stop, t_img *jpg);
+void				last_ca(t_pts d, t_pts start, t_pts stop, t_img *jpg);
+void				d_x_pos(t_pts d, t_pts start, t_pts stop, t_img *jpg);
+void				d_x_neg(t_pts d, t_pts start, t_pts stop, t_img *jpg);
 int					lst_len(t_file *lst);
 int					do_char_len(char **str);
 void				affiche_carte(t_move param);

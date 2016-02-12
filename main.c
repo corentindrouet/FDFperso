@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/05 09:53:37 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/12 13:46:33 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/12 14:34:27 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,47 +23,16 @@ int		esc_touch(int keycode, void *param)
 		mlx_destroy_window(par->omlx.mlx, par->omlx.win);
 		exit(0);
 	}
-	if (keycode == LEFT)
-	{
-		mlx_clear_window(par->omlx.mlx, par->omlx.win);
-		par->start.x -= 3;
-		affiche_carte(*par);
-	}
-	if (keycode == RIGHT)
-	{
-		mlx_clear_window(par->omlx.mlx, par->omlx.win);
-		par->start.x += 3;
-		affiche_carte(*par);
-	}
-	if (keycode == UP)
-	{
-		mlx_clear_window(par->omlx.mlx, par->omlx.win);
-		par->start.y -= 3;
-		affiche_carte(*par);
-	}
-	if (keycode == DOWN)
-	{
-		mlx_clear_window(par->omlx.mlx, par->omlx.win);
-		par->start.y += 3;
-		affiche_carte(*par);
-	}
-	if (keycode == MOIN)
-	{
-		mlx_clear_window(par->omlx.mlx, par->omlx.win);
-		par->zoom--;
-		affiche_carte(*par);
-	}
-	if (keycode == PLUS)
-	{
-		mlx_clear_window(par->omlx.mlx, par->omlx.win);
-		par->zoom++;
-		affiche_carte(*par);
-	}
+	if (keycode == LEFT || keycode == RIGHT
+		|| keycode == UP || keycode == DOWN)
+		event_fleche(keycode, par);
+	if (keycode == MOIN || keycode == PLUS)
+		event_plus_moin(keycode, par);
 	if (keycode == ESP)
 	{
 		mlx_clear_window(par->omlx.mlx, par->omlx.win);
-		par->start.x = 400;
-		par->start.y = 200;
+		par->start.x = 160;
+		par->start.y = 100;
 		par->zoom = 2;
 		affiche_carte(*par);
 	}
@@ -115,10 +84,11 @@ int		main(int argc, char **argv)
 
 	(void)argc;
 	param.omlx.mlx = mlx_init();
-	param.omlx.win = mlx_new_window(param.omlx.mlx, 1600, 1000, ft_strjoin("FDF - ", argv[1]));
+	param.omlx.win = mlx_new_window(param.omlx.mlx,
+		1600, 1000, ft_strjoin("FDF - ", argv[1]));
 	param.carte = NULL;
 	param.carte = init_carte(param.carte, argv[1], &(param.angle));
-	param.start.x = 100;
+	param.start.x = 160;
 	param.start.y = 100;
 	param.zoom = 2;
 	affiche_carte(param);
