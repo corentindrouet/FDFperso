@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/10 08:14:01 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/12 10:56:30 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/12 11:51:34 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ void			affiche_carte(t_move param)
 {
 	int		i;
 	int		y;
+	double	coef;
+	double	t1;
+	double	t2;
 	t_pts	init;
 	t_pts	dec;
 	t_img	*put;
@@ -72,7 +75,11 @@ void			affiche_carte(t_move param)
 		init.x = 600 / lst_len(param.carte);
 		init.y = 600 / lst_len(param.carte);
 	}
-	param.angle.x *= 0.02;
+	t1 = (double)init.x;
+	t2 = (double)((param.angle.x > lst_len(param.carte))?
+		param.angle.x : lst_len(param.carte));
+	coef = t1 / t2;
+	param.angle.x *= (coef );
 	param.angle.y = param.angle.x * 0.4;
 	put = t_img_init(param.omlx.mlx, 1000, 1000);
 	dec.x = param.start.x;

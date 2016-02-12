@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/05 09:53:37 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/12 10:10:25 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/12 12:00:47 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,16 @@ int		main(int argc, char **argv)
 	t_move	param;
 
 	(void)argc;
-	param.carte = NULL;
-	param.carte = init_carte(param.carte, argv[1], &(param.angle));
 	param.omlx.mlx = mlx_init();
 	param.omlx.win = mlx_new_window(param.omlx.mlx, 1000, 1000, ft_strjoin("FDF - ", argv[1]));
+	mlx_string_put(param.omlx.mlx, param.omlx.win, 400, 400,
+		mlx_get_color_value(param.omlx.mlx, 0x0000FF), "Loading...");
+	param.carte = NULL;
+	param.carte = init_carte(param.carte, argv[1], &(param.angle));
 	param.start.x = 400;
 	param.start.y = 200;
 	param.zoom = 2;
+	mlx_clear_window(param.omlx.mlx, param.omlx.win);
 	affiche_carte(param);
 	mlx_hook(param.omlx.win, 2, 0, esc_touch, &param);
 	mlx_loop(param.omlx.mlx);
