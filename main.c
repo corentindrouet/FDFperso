@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/05 09:53:37 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/12 12:00:47 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/12 13:46:33 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,14 @@ int		esc_touch(int keycode, void *param)
 		par->zoom++;
 		affiche_carte(*par);
 	}
+	if (keycode == ESP)
+	{
+		mlx_clear_window(par->omlx.mlx, par->omlx.win);
+		par->start.x = 400;
+		par->start.y = 200;
+		par->zoom = 2;
+		affiche_carte(*par);
+	}
 	return (0);
 }
 
@@ -107,15 +115,12 @@ int		main(int argc, char **argv)
 
 	(void)argc;
 	param.omlx.mlx = mlx_init();
-	param.omlx.win = mlx_new_window(param.omlx.mlx, 1000, 1000, ft_strjoin("FDF - ", argv[1]));
-	mlx_string_put(param.omlx.mlx, param.omlx.win, 400, 400,
-		mlx_get_color_value(param.omlx.mlx, 0x0000FF), "Loading...");
+	param.omlx.win = mlx_new_window(param.omlx.mlx, 1600, 1000, ft_strjoin("FDF - ", argv[1]));
 	param.carte = NULL;
 	param.carte = init_carte(param.carte, argv[1], &(param.angle));
-	param.start.x = 400;
-	param.start.y = 200;
+	param.start.x = 100;
+	param.start.y = 100;
 	param.zoom = 2;
-	mlx_clear_window(param.omlx.mlx, param.omlx.win);
 	affiche_carte(param);
 	mlx_hook(param.omlx.win, 2, 0, esc_touch, &param);
 	mlx_loop(param.omlx.mlx);

@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/10 08:14:01 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/12 11:51:34 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/12 13:48:16 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,13 @@ void			affiche_carte(t_move param)
 	t_pts	init;
 	t_pts	dec;
 	t_img	*put;
+	int		tempo;
 
+	tempo = param.angle.x;
 	if (param.angle.x > lst_len(param.carte))
 	{
-		init.x = 600 / param.angle.x;
-		init.y = 600 / param.angle.x;
+		init.x = (600 / param.angle.x);
+		init.y = (600 / param.angle.x);
 	}
 	else
 	{
@@ -79,11 +81,11 @@ void			affiche_carte(t_move param)
 	t2 = (double)((param.angle.x > lst_len(param.carte))?
 		param.angle.x : lst_len(param.carte));
 	coef = t1 / t2;
-	param.angle.x *= (coef );
+	param.angle.x *= coef;
 	param.angle.y = param.angle.x * 0.4;
-	put = t_img_init(param.omlx.mlx, 1000, 1000);
-	dec.x = param.start.x;
-	dec.y = param.start.y;
+	put = t_img_init(param.omlx.mlx, 1600, 1000);
+	dec.x = param.start.x + (param.angle.x * lst_len(param.carte));
+	dec.y = param.start.y + (param.angle.y * tempo);
 	y = 0;
 	put->color = mlx_get_color_value(param.omlx.mlx, 0xFFFFFF);
 	while (param.carte)
