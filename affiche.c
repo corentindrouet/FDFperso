@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/10 08:14:01 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/11 15:07:32 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/12 10:56:30 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static t_pts	decal(t_pts base, int x, int y)
 int				do_char_len(char **str)
 {
 	int	i;
-	
+
 	i = 0;
 	while (str[i])
 		i++;
@@ -54,7 +54,7 @@ int				lst_len(t_file *lst)
 	return (i);
 }
 
-void			affiche_carte(t_file *carte, t_mlx info, t_pts valdec, t_pts start)
+void			affiche_carte(t_move param)
 {
 	int		i;
 	int		y;
@@ -62,39 +62,54 @@ void			affiche_carte(t_file *carte, t_mlx info, t_pts valdec, t_pts start)
 	t_pts	dec;
 	t_img	*put;
 
-	init.x = 600 / valdec.x;//((do_char_len(carte->split) / 900) >= 1) ? do_char_len(carte->split) / 900 : valdec.x * 0.6;
-	init.y = 600 / lst_len(carte);//((lst_len(carte) / 900) >= 1) ? lst_len(carte) / 900 : valdec.x * 0.8;
-	valdec.x *= 2;
-	valdec.y = valdec.x * 0.4;
-	put = t_img_init(info.mlx, 1000, 1000);
-	dec.x = start.x;
-	dec.y = start.y;
+	if (param.angle.x > lst_len(param.carte))
+	{
+		init.x = 600 / param.angle.x;
+		init.y = 600 / param.angle.x;
+	}
+	else
+	{
+		init.x = 600 / lst_len(param.carte);
+		init.y = 600 / lst_len(param.carte);
+	}
+	param.angle.x *= 0.02;
+	param.angle.y = param.angle.x * 0.4;
+	put = t_img_init(param.omlx.mlx, 1000, 1000);
+	dec.x = param.start.x;
+	dec.y = param.start.y;
 	y = 0;
-	put->color = mlx_get_color_value(info.mlx, 0xFFFFFF);
-	while (carte)
+	put->color = mlx_get_color_value(param.omlx.mlx, 0xFFFFFF);
+	while (param.carte)
 	{
 		i = 0;
-		dec.y = start.y;
-		while (carte->split[i])
+		dec.y = param.start.y;
+		while (param.carte->split[i])
 		{
-			if (carte->split[i + 1])
+			if (param.carte->split[i + 1])
 				trace_segment(decal(init_pts(init, i, y), dec.x,
-					((dec.y - ((init.x / 5) * ft_atoi(carte->split[i]))) / 2)),
-						decal(init_pts(init, i + 1, y), dec.x,
-							((dec.y + valdec.y - ((init.x / 5) * ft_atoi(carte->split[i + 1]))) / 2)), put);
-			if (carte->next)
-				if (i < do_char_len(carte->next->split))
+					((dec.y - (param.zoom *
+						ft_atoi(param.carte->split[i]))) / 2)),
+							decal(init_pts(init, i + 1, y), dec.x,
+								((dec.y + param.angle.y - (param.zoom *
+									ft_atoi(param.carte->split[i + 1])))
+										/ 2)), put);
+			if (param.carte->next)
+				if (i < do_char_len(param.carte->next->split))
 					trace_segment(decal(init_pts(init, i, y), dec.x,
-						((dec.y - ((init.x / 5) * ft_atoi(carte->split[i]))) / 2)),
-							decal(init_pts(init, i, y + 1), dec.x - valdec.x,
-								((dec.y - ((init.x / 5) * ft_atoi(carte->next->split[i]))) / 2)), put);
+						((dec.y - (param.zoom *
+							ft_atoi(param.carte->split[i]))) / 2)),
+								decal(init_pts(init, i, y + 1),
+									dec.x - param.angle.x, ((dec.y -
+										(param.zoom * ft_atoi(
+											param.carte->next->split[i])))
+												/ 2)), put);
 			i++;
-			dec.y += valdec.y;
+			dec.y += param.angle.y;
 		}
-		dec.x -= valdec.x;
+		dec.x -= param.angle.x;
 		y++;
-		carte = carte->next;
+		param.carte = param.carte->next;
 	}
-	mlx_put_image_to_window(info.mlx, info.win, put->img, 0, 0);
-	mlx_destroy_image(info.mlx, put->img);
+	mlx_put_image_to_window(param.omlx.mlx, param.omlx.win, put->img, 0, 0);
+	mlx_destroy_image(param.omlx.mlx, put->img);
 }

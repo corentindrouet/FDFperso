@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 13:10:04 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/11 08:57:47 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/12 09:27:42 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,30 +22,24 @@ static void	first_ca(t_pts d, t_pts start, t_pts stop, t_img *jpg)
 		e = d.x;
 		d.x *= 2;
 		d.y *= 2;
-		while (start.x != stop.x)
-		{
-			write_img(start.y, start.x++, jpg);
+		while (start.x != stop.x && write_img(start.y, start.x++, jpg))
 			if ((e -= d.y) < 0)
 			{
 				start.y++;
 				e += d.x;
 			}
-		}
 	}
 	else
 	{
 		e = d.y;
 		d.x *= 2;
 		d.y *= 2;
-		while (start.y != stop.y)
-		{
-			write_img(start.y++, start.x, jpg);
+		while (start.y != stop.y && write_img(start.y++, start.x, jpg))
 			if ((e -= d.x) < 0)
 			{
 				start.x++;
 				e += d.y;
 			}
-		}
 	}
 }
 
@@ -58,30 +52,24 @@ static void	last_ca(t_pts d, t_pts start, t_pts stop, t_img *jpg)
 		e = d.x;
 		d.x *= 2;
 		d.y *= 2;
-		while (start.x != stop.x)
-		{
-			write_img(start.y, start.x++, jpg);
+		while (start.x != stop.x && write_img(start.y, start.x++, jpg))
 			if ((e += d.y) < 0)
 			{
 				start.y--;
 				e += d.x;
 			}
-		}
 	}
 	else
 	{
 		e = d.y;
 		d.x *= 2;
 		d.y *= 2;
-		while (start.y != stop.y)
-		{
-			write_img(start.y--, start.x, jpg);
+		while (start.y != stop.y && write_img(start.y--, start.x, jpg))
 			if ((e += d.x) > 0)
 			{
 				start.x++;
 				e += d.y;
 			}
-		}
 	}
 }
 
@@ -94,30 +82,24 @@ static void	second_ca(t_pts d, t_pts start, t_pts stop, t_img *jpg)
 		e = d.x;
 		d.x *= 2;
 		d.y *= 2;
-		while (start.x != stop.x)
-		{
-			write_img(start.y, start.x--, jpg);
+		while (start.x != stop.x && write_img(start.y, start.x--, jpg))
 			if ((e += d.y) >= 0)
 			{
 				start.y++;
 				e += d.x;
 			}
-		}
 	}
 	else
 	{
 		e = d.y;
 		d.x *= 2;
 		d.y *= 2;
-		while (start.y != stop.y)
-		{
-			write_img(start.y++, start.x, jpg);
+		while (start.y != stop.y && write_img(start.y++, start.x, jpg))
 			if ((e += d.x) <= 0)
 			{
 				start.x--;
 				e += d.y;
 			}
-		}
 	}
 }
 
@@ -130,30 +112,24 @@ static void	third_ca(t_pts d, t_pts start, t_pts stop, t_img *jpg)
 		e = d.x;
 		d.x *= 2;
 		d.y *= 2;
-		while (start.x != stop.x)
-		{
-			write_img(start.y, start.x--, jpg);
+		while (start.x != stop.x && write_img(start.y, start.x--, jpg))
 			if ((e -= d.y) >= 0)
 			{
 				start.y--;
 				e += d.x;
 			}
-		}
 	}
 	else
 	{
 		e = d.y;
 		d.x *= 2;
 		d.y *= 2;
-		while (start.y != stop.y)
-		{
-			write_img(start.y--, start.x, jpg);
+		while (start.y != stop.y && write_img(start.y--, start.x, jpg))
 			if ((e -= d.x) >= 0)
 			{
 				start.x--;
 				e += d.y;
 			}
-		}
 	}
 }
 

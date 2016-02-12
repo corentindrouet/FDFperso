@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/05 09:53:37 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/11 15:07:35 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/12 10:10:25 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,46 +18,46 @@ int		esc_touch(int keycode, void *param)
 	t_move	*par;
 
 	par = (t_move*)param;
-	if (keycode == esc)
+	if (keycode == ESC)
 	{
 		mlx_destroy_window(par->omlx.mlx, par->omlx.win);
 		exit(0);
 	}
-	if (keycode == left)
+	if (keycode == LEFT)
 	{
 		mlx_clear_window(par->omlx.mlx, par->omlx.win);
 		par->start.x -= 3;
-		affiche_carte(par->carte, par->omlx, par->angle, par->start);
+		affiche_carte(*par);
 	}
-	if (keycode == right)
+	if (keycode == RIGHT)
 	{
 		mlx_clear_window(par->omlx.mlx, par->omlx.win);
 		par->start.x += 3;
-		affiche_carte(par->carte, par->omlx, par->angle, par->start);
+		affiche_carte(*par);
 	}
-	if (keycode == up)
+	if (keycode == UP)
 	{
 		mlx_clear_window(par->omlx.mlx, par->omlx.win);
 		par->start.y -= 3;
-		affiche_carte(par->carte, par->omlx, par->angle, par->start);
+		affiche_carte(*par);
 	}
-	if (keycode == down)
+	if (keycode == DOWN)
 	{
 		mlx_clear_window(par->omlx.mlx, par->omlx.win);
 		par->start.y += 3;
-		affiche_carte(par->carte, par->omlx, par->angle, par->start);
+		affiche_carte(*par);
 	}
-	if (keycode == moin)
+	if (keycode == MOIN)
 	{
 		mlx_clear_window(par->omlx.mlx, par->omlx.win);
-		par->angle.x -= 3;
-		affiche_carte(par->carte, par->omlx, par->angle, par->start);
+		par->zoom--;
+		affiche_carte(*par);
 	}
-	if (keycode == plus)
+	if (keycode == PLUS)
 	{
 		mlx_clear_window(par->omlx.mlx, par->omlx.win);
-		par->angle.x += 3;
-		affiche_carte(par->carte, par->omlx, par->angle, par->start);
+		par->zoom++;
+		affiche_carte(*par);
 	}
 	return (0);
 }
@@ -103,26 +103,18 @@ t_file	*init_carte(t_file *carte, char *file, t_pts *mm)
 
 int		main(int argc, char **argv)
 {
-	t_file	*carte;
-	t_mlx	prout;
-	t_pts	angle;
-	t_pts	start;
 	t_move	param;
 
 	(void)argc;
-	carte = NULL;
-	carte = init_carte(carte, argv[1], &angle);
-	prout.mlx = mlx_init();
-	prout.win = mlx_new_window(prout.mlx, 1000, 1000, ft_strjoin("FDF - ", argv[1]));
-	start.x = 400;
-	start.y = 200;
-	param.angle = angle;
-	param.omlx = prout;
-	param.carte = carte;
-	param.start = start;
-	affiche_carte(carte, prout, angle, start);
-//	mlx_key_hook(prout.win, esc_touch, &param);
-	mlx_hook(prout.win, 2, 0, esc_touch, &param);
-	mlx_loop(prout.mlx);
+	param.carte = NULL;
+	param.carte = init_carte(param.carte, argv[1], &(param.angle));
+	param.omlx.mlx = mlx_init();
+	param.omlx.win = mlx_new_window(param.omlx.mlx, 1000, 1000, ft_strjoin("FDF - ", argv[1]));
+	param.start.x = 400;
+	param.start.y = 200;
+	param.zoom = 2;
+	affiche_carte(param);
+	mlx_hook(param.omlx.win, 2, 0, esc_touch, &param);
+	mlx_loop(param.omlx.mlx);
 	return (0);
 }
