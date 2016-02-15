@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/05 09:53:37 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/15 09:30:32 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/15 11:25:54 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,14 @@ t_file	*init_carte(t_file *carte, char *file, t_pts *mm)
 int		main(int argc, char **argv)
 {
 	t_move	param;
+	char	*name;
 
 	(void)argc;
 	param.omlx.mlx = mlx_init();
+	name = ft_strjoin("FDF - ", argv[1]);
 	param.omlx.win = mlx_new_window(param.omlx.mlx,
-		1600, 1000, ft_strjoin("FDF - ", argv[1]));
+		1600, 1000, name);
+	free(name);
 	param.carte = NULL;
 	param.carte = init_carte(param.carte, argv[1], &(param.angle));
 	param.start.x = 160;

@@ -6,14 +6,14 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/10 08:14:01 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/15 09:18:22 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/15 11:57:37 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <stdio.h>
 
-static t_pts	init_pts(t_pts base, int i, int y)
+t_pts	init_pts(t_pts base, int i, int y)
 {
 	t_pts	ret;
 
@@ -22,7 +22,7 @@ static t_pts	init_pts(t_pts base, int i, int y)
 	return (ret);
 }
 
-static t_pts	decal(t_pts base, int x, int y)
+t_pts	decal(t_pts base, int x, int y)
 {
 	t_pts	ret;
 
@@ -31,7 +31,7 @@ static t_pts	decal(t_pts base, int x, int y)
 	return (ret);
 }
 
-int				do_char_len(char **str)
+int		do_char_len(char **str)
 {
 	int	i;
 
@@ -41,59 +41,49 @@ int				do_char_len(char **str)
 	return (i);
 }
 
-int				lst_len(t_file *lst)
+void	trace_droite(t_pt_af all, t_img *put, t_move param)
 {
-	int	i;
-
-	i = 0;
-	while (lst)
+	while (param.carte->split[all.com.x])
 	{
-		i++;
-		lst = lst->next;
+		if (param.carte->split[all.com.x + 1])
+			trace_segment(decal(init_pts(all.init, all.com.x, all.com.y),
+				all.dec.x, ((all.dec.y - (param.zoom *
+					ft_atoi(param.carte->split[all.com.x]))) / 2)),
+						decal(init_pts(all.init, all.com.x + 1, all.com.y),
+							all.dec.x, ((all.dec.y + param.angle.y -
+								(param.zoom * ft_atoi(
+									param.carte->split[all.com.x + 1])))
+										/ 2)), put);
+		if (param.carte->next)
+			if (all.com.x < do_char_len(param.carte->next->split))
+				trace_segment(decal(init_pts(all.init, all.com.x, all.com.y),
+					all.dec.x, ((all.dec.y - (param.zoom *
+						ft_atoi(param.carte->split[all.com.x]))) / 2)),
+							decal(init_pts(all.init, all.com.x, all.com.y + 1),
+								all.dec.x - param.angle.x, ((all.dec.y -
+									(param.zoom * ft_atoi(
+										param.carte->next->split[all.com.x])))
+											/ 2)), put);
+		all.com.x++;
+		all.dec.y += param.angle.y;
 	}
-	return (i);
 }
 
-void			affiche_carte(t_move param)
+void	affiche_carte(t_move param)
 {
-	t_pts	com;
-	t_pts	init;
-	t_pts	dec;
 	t_img	*put;
-	int		tempo;
+	t_pt_af	all;
 
-	tempo = param.angle.x;
-	initialise_affiche(&param, &init, &dec, &put);
-	com.y = 0;
+	all.tempo = param.angle.x;
+	initialise_affiche(&param, &(all.init), &(all.dec), &put);
+	all.com.y = 0;
 	while (param.carte)
 	{
-		com.x = 0;
-		dec.y = param.start.y + (param.angle.y * tempo);
-		while (param.carte->split[com.x])
-		{
-			if (param.carte->split[com.x + 1])
-				trace_segment(decal(init_pts(init, com.x, com.y), dec.x,
-					((dec.y - (param.zoom *
-						ft_atoi(param.carte->split[com.x]))) / 2)),
-							decal(init_pts(init, com.x + 1, com.y), dec.x,
-								((dec.y + param.angle.y - (param.zoom *
-									ft_atoi(param.carte->split[com.x + 1])))
-										/ 2)), put);
-			if (param.carte->next)
-				if (com.x < do_char_len(param.carte->next->split))
-					trace_segment(decal(init_pts(init, com.x, com.y), dec.x,
-						((dec.y - (param.zoom *
-							ft_atoi(param.carte->split[com.x]))) / 2)),
-								decal(init_pts(init, com.x, com.y + 1),
-									dec.x - param.angle.x, ((dec.y -
-										(param.zoom * ft_atoi(
-											param.carte->next->split[com.x])))
-												/ 2)), put);
-			com.x++;
-			dec.y += param.angle.y;
-		}
-		dec.x -= param.angle.x;
-		com.y++;
+		all.com.x = 0;
+		all.dec.y = param.start.y + (param.angle.y * all.tempo);
+		trace_droite(all, put, param);
+		all.dec.x -= param.angle.x;
+		all.com.y++;
 		param.carte = param.carte->next;
 	}
 	mlx_put_image_to_window(param.omlx.mlx, param.omlx.win, put->img, 0, 0);

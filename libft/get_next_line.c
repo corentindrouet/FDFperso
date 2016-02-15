@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/09 08:40:55 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/01/19 09:00:14 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/15 11:26:32 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int				get_next_line(int const fd, char **line)
 		if ((j[2] = read_gnl(c[j[3]], fd)) <= 0)
 			return (j[2]);
 	}
-	*line = ft_strnew(1);
+	*line = NULL;
 	while (j[2] > 0 && ft_strchr(c[j[3]], '\n') == NULL)
 	{
 		*line = ft_strjoin(*line, c[j[3]]);

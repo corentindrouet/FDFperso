@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/12 14:27:08 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/15 09:12:34 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/15 11:57:35 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,15 @@ void	initialise_affiche(t_move *param, t_pts *init, t_pts *dec, t_img **put)
 	(*put)->color = mlx_get_color_value((*param).omlx.mlx, 0xFFFFFF);
 }
 
-//void	trace()
+int		lst_len(t_file *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		i++;
+		lst = lst->next;
+	}
+	return (i);
+}

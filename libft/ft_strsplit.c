@@ -6,7 +6,7 @@
 /*   By: cdrouet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/26 08:19:42 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/15 09:28:49 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/15 11:29:14 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ char		**ft_strsplit(char const *s, char c)
 		j[3] = 0;
 		while (sc[++j[1]] != c && sc[j[1]] != '\0')
 			j[3]++;
-		ptr[j[2]] = (char*)malloc(sizeof(char) * (j[3] + 1));
-		ptr[j[2]][++j[3]] = '\0';
-		while (--j[3] > 0)
-			ptr[j[2]][j[0]++] = sc[j[1] - j[3]];
+		ptr[j[2]] = ft_strnew(j[3] + 1);
+		while (j[3] > 0)
+			ptr[j[2]][j[0]++] = sc[j[1] - j[3]--];
 		while (sc[j[1]] == c)
 			j[1]++;
 		j[1]--;
 	}
 	ptr[j[2]] = NULL;
+	free(sc);
 	return (ptr);
 }

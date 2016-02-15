@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/05 10:38:50 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/15 08:18:35 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/15 11:50:16 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,17 @@ typedef struct		s_move
 	int				zoom;
 }					t_move;
 
+typedef struct		s_pt_affiche
+{
+	t_pts			com;
+	t_pts			init;
+	t_pts			dec;
+	int				tempo;
+}					t_pt_af;
+
+t_pts				init_pts(t_pts base, int i, int y);
+t_pts				decal(t_pts base, int x, int y);
+void				trace_droite(t_pt_af all, t_img *put, t_move param);
 void				event_plus_moin(int keycode, t_move *par);
 void				event_fleche(int keycode, t_move *par);
 void				first_ca(t_pts d, t_pts start, t_pts stop, t_img *jpg);
