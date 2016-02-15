@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/05 10:38:50 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/12 14:34:21 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/15 08:18:35 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void				d_x_neg(t_pts d, t_pts start, t_pts stop, t_img *jpg);
 int					lst_len(t_file *lst);
 int					do_char_len(char **str);
 void				affiche_carte(t_move param);
+void				initialise_affiche(t_move *param,
+						t_pts *init, t_pts *dec, t_img **put);
 t_file				*lst_file_new(char **val);
 t_file				*init_carte(t_file *carte, char *file, t_pts *mm);
 t_img				*t_img_init(void *mlx, int x, int y);
