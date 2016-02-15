@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/12 14:27:08 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/15 11:57:35 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/15 14:39:29 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ void	initialise_affiche(t_move *param, t_pts *init, t_pts *dec, t_img **put)
 
 	if ((tempo = (*param).angle.x) > lst_len((*param).carte))
 	{
-		(*init).x = (600 / (*param).angle.x);
+		(*init).x = ((1.4 * 600) / (*param).angle.x);
 		(*init).y = (600 / (*param).angle.x);
 	}
 	else
 	{
-		(*init).x = 600 / lst_len((*param).carte);
+		(*init).x = (1.6 * 600) / lst_len((*param).carte);
 		(*init).y = 600 / lst_len((*param).carte);
 	}
 	t1 = (double)(*init).x;
