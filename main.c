@@ -6,7 +6,7 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/05 09:53:37 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/23 11:09:04 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/23 11:30:19 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	error_msg(int err)
 {
 	if (err == -1)
 	{
-		ft_printf("fichier invalide\n");
+		ft_printf("can't read this file\n");
 		exit(0);
 	}
 	if (err == 0)
@@ -71,8 +71,8 @@ t_file		*init_carte(t_file *carte, char *file, t_pts *mm)
 	char	*line;
 	t_file	*ret;
 
-	if ((fd = open(file, O_RDONLY)) == -1)
-		exit(0);
+	fd = open(file, O_RDONLY);
+	error_msg(fd);
 	(*mm).x = 0;
 	ret = NULL;
 	if ((error_msg(get_next_line(fd, &line))) > 0)
