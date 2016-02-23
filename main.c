@@ -6,14 +6,14 @@
 /*   By: cdrouet <cdrouet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/05 09:53:37 by cdrouet           #+#    #+#             */
-/*   Updated: 2016/02/15 14:23:56 by cdrouet          ###   ########.fr       */
+/*   Updated: 2016/02/23 11:09:04 by cdrouet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <stdio.h>
 
-int		esc_touch(int keycode, void *param)
+int			esc_touch(int keycode, void *param)
 {
 	t_move	*par;
 
@@ -39,7 +39,7 @@ int		esc_touch(int keycode, void *param)
 	return (0);
 }
 
-t_file	*lst_file_new(char **val)
+t_file		*lst_file_new(char **val)
 {
 	t_file	*new;
 
@@ -50,16 +50,32 @@ t_file	*lst_file_new(char **val)
 	return (new);
 }
 
-t_file	*init_carte(t_file *carte, char *file, t_pts *mm)
+static int	error_msg(int err)
+{
+	if (err == -1)
+	{
+		ft_printf("fichier invalide\n");
+		exit(0);
+	}
+	if (err == 0)
+	{
+		ft_printf("fichier vide\n");
+		exit(0);
+	}
+	return (err);
+}
+
+t_file		*init_carte(t_file *carte, char *file, t_pts *mm)
 {
 	int		fd;
 	char	*line;
 	t_file	*ret;
 
-	fd = open(file, O_RDONLY);
+	if ((fd = open(file, O_RDONLY)) == -1)
+		exit(0);
 	(*mm).x = 0;
 	ret = NULL;
-	if (get_next_line(fd, &line) > 0)
+	if ((error_msg(get_next_line(fd, &line))) > 0)
 	{
 		ret = lst_file_new(ft_strsplit(line, ' '));
 		if (do_char_len(ret->split) > (*mm).x)
@@ -78,19 +94,19 @@ t_file	*init_carte(t_file *carte, char *file, t_pts *mm)
 	return (ret);
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	t_move	param;
 	char	*name;
 
 	(void)argc;
+	param.carte = NULL;
+	param.carte = init_carte(param.carte, argv[1], &(param.angle));
 	param.omlx.mlx = mlx_init();
 	name = ft_strjoin("FDF - ", argv[1]);
 	param.omlx.win = mlx_new_window(param.omlx.mlx,
 		1600, 1000, name);
 	free(name);
-	param.carte = NULL;
-	param.carte = init_carte(param.carte, argv[1], &(param.angle));
 	param.start.x = 160;
 	param.start.y = 100;
 	param.zoom = 2;
